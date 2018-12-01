@@ -6,8 +6,12 @@
 // Настройка режимов микросхемы АЦП  (высокоуровневое API модуля, синхронные операции)
 //-------------------------------------
 
-// Reset Registers to Default Values
-void    ADS1256_API_Reset(void);
+// Управление потоком выполнения
+void ADS1256_API_Reset(void);       //Программный Сброс: Reset Registers to Default Values
+void ADS1256_API_Synchronize(void); //Послать команду SYNC:     Synchronize the A/D Conversion                 (приостановить конвертацию... но быть готовым сразу же продолжить, по команде WAKEUP)
+void ADS1256_API_Standby(void);     //Послать команду STANDBY:  Standby Mode / One-Shot Mode                   (усыпить АЦП, поместить в режим пониженного энергопотребления... при этом, конвертация конечно приостанавливается, но для ее возобновления требуется больше времени, чем после команды SYNC)
+void ADS1256_API_WakeUp(void);      //Послать команду WAKEUP:   Complete Synchronization or Exit Standby Mode  ([разбудить АЦП, если был в спящем режиме]... и сразу после этого, произвести конвертацию)
+
 
 // Вернуть заводской Идентификатор Микросхемы (значение битов "ID3, ID2, ID1, ID0" из регистра STATUS)
 uint8_t ADS1256_API_GetDeviceID(void);
